@@ -1,6 +1,6 @@
 const CONFIG = {
 
-  SIMPLE_LOGO_IMG: '/Logo.webp',
+  SIMPLE_LOGO_IMG: 'https://img1.baidu.com/it/u=3153047441,3121253956&fm=253&fmt=auto&app=138&f=JPEG?w=513&h=513',
   SIMPLE_TOP_BAR: true, // 显示顶栏
   SIMPLE_TOP_BAR_CONTENT: process.env.NEXT_PUBLIC_THEME_SIMPLE_TOP_TIPS || '',
   SIMPLE_LOGO_DESCRIPTION: process.env.NEXT_PUBLIC_THEME_SIMPLE_LOGO_DESCRIPTION || '<div>电子科技大学<br/>/信软学院<br/>/互联网安全</div>',
