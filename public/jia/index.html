@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给贾贾的惊喜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 第一页 - 逼真星空 */
+        #page1 {
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* 逼真星空 */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--min-opacity); }
+            50% { opacity: 1; }
+        }
+
+        /* 银河带 */
+        .milky-way {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 50% 50%, rgba(100, 100, 150, 0.3) 0%, transparent 60%),
+                linear-gradient(180deg, transparent 0%, rgba(100, 100, 150, 0.1) 50%, transparent 100%);
+            transform: rotate(-30deg);
+            animation: milkyWayMove 100s linear infinite;
+        }
+
+        @keyframes milkyWayMove {
+            from { transform: rotate(-30deg) translateX(0); }
+            to { transform: rotate(-30deg) translateX(-50%); }
+        }
+
+        /* 流星 */
+        .shooting-star {
+            position: absolute;
+            background: linear-gradient(90deg, #fff, rgba(255,255,255,0));
+            animation: shoot var(--duration) linear infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0); opacity: 0; width: 0; }
+            5% { opacity: 1; width: 100px; }
+            20% { opacity: 0; width: 200px; }
+            100% { transform: translateX(300px) translateY(200px); opacity: 0; }
+        }
+
+        /* 远一点的星星 - 蓝色 */
+        .star.blue {
+            background: #a0c4ff;
+        }
+
+        /* 远一点的星星 - 黄色 */
+        .star.yellow {
+            background: #ffe66d;
+        }
+
+        /* 贾字 - 不要太粉 */
+        .flower-char {
+            font-size: 280px;
+            font-weight: bold;
+            position: relative;
+            z-index: 10;
+            color: #fff0f5;
+            text-shadow: 
+                0 0 20px rgba(255, 182, 193, 0.8),
+                0 0 40px rgba(255, 182, 193, 0.5),
+                0 0 60px rgba(255, 182, 193, 0.3);
+            animation: softGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes softGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px rgba(255, 182, 193, 0.8),
+                    0 0 40px rgba(255, 182, 193, 0.5);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 30px rgba(255, 182, 193, 1),
+                    0 0 50px rgba(255, 182, 193, 0.7),
+                    0 0 70px rgba(255, 182, 193, 0.4);
+            }
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: 60px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            animation: pulse 2s infinite;
+            letter-spacing: 3px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* 第二页 */
+        #page2 {
+            width: 100vw;
+            min-height: 100vh;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(255, 182, 193, 0.5) 0%, transparent 40%),
+                radial-gradient(circle at 70% 30%, rgba(255, 192, 203, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.1) 0%, transparent 60%),
+                linear-gradient(180deg, #ffe4ec 0%, #ffc0cb 50%, #ffb6c1 100%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            position: relative;
+        }
+
+        #page2.show {
+            display: flex;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 飘落的花瓣 */
+        .falling-petal {
+            position: absolute;
+            font-size: 28px;
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* 照片轮播 - 更大 */
+        .carousel {
+            width: 95%;
+            max-width: 800px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 60px rgba(255, 105, 180, 0.3),
+                0 10px 20px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 105, 180, 0.5);
+        }
+
+        .carousel-dot.active {
+            background: #ff69b4;
+            transform: scale(1.3);
+        }
+
+        /* 交替文字 */
+        .love-text-container {
+            margin-top: 30px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .love-text {
+            font-size: 36px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.2),
+                0 0 20px rgba(255, 105, 180, 0.6);
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- 第一页 -->
+    <div id="page1" onclick="goToPage2()">
+        <div class="stars" id="stars"></div>
+        <div class="milky-way"></div>
+        
+        <!-- 贾字 -->
+        <div class="flower-char">贾</div>
+        
+        <div class="click-hint">点击进入 ❤️</div>
+    </div>
+
+    <!-- 第二页 -->
+    <div id="page2">
+        <!-- 飘落的花瓣 -->
+        <div class="falling-petal" style="left: 10%; animation-duration: 8s;">🌸</div>
+        <div class="falling-petal" style="left: 25%; animation-duration: 10s; animation-delay: 2s;">🌺</div>
+        <div class="falling-petal" style="left: 40%; animation-duration: 9s; animation-delay: 1s;">🌸</div>
+        <div class="falling-petal" style="left: 55%; animation-duration: 11s; animation-delay: 3s;">🌺</div>
+        <div class="falling-petal" style="left: 70%; animation-duration: 8s; animation-delay: 2s;">🌸</div>
+        <div class="falling-petal" style="left: 85%; animation-duration: 10s; animation-delay: 1s;">🌺</div>
+
+        <!-- 照片轮播 -->
+        <div class="carousel">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide">
+                    <img src="images/75c720504cfff9ee7dbb18472e7fcc37.jpg" alt="照片1">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/e9d2e8dc84b6d48654c3c86d955eef77.jpg" alt="照片2">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/f3198688ea8ed489b96fd5d58f20edf2.jpg" alt="照片3">
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/fc935abbc439b0d2fdc4b40d64e7622c.jpg" alt="照片4">
+                </div>
+            </div>
+        </div>
+        
+        <div class="carousel-dots">
+            <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+            <div class="carousel-dot" onclick="goToSlide(1)"></div>
+            <div class="carousel-dot" onclick="goToSlide(2)"></div>
+            <div class="carousel-dot" onclick="goToSlide(3)"></div>
+        </div>
+
+        <!-- 交替文字 -->
+        <div class="love-text-container">
+            <div class="love-text" id="loveText">贾贾天天开心</div>
+        </div>
+    </div>
+
+    <script>
+        // 创建逼真星空
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            
+            // 亮星 - 150颗
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                
+                const size = Math.random() * 1.5 + 0.5;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                star.style.setProperty('--delay', (Math.random() * 5) + 's');
+                star.style.setProperty('--min-opacity', (Math.random() * 0.3 + 0.2));
+                
+                starsContainer.appendChild(star);
+            }
+
+            // 蓝色星星 - 30颗
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.className = 'star blue';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.width = (Math.random() * 1 + 0.5) + 'px';
+                star.style.height = star.style.width;
+                star.style.setProperty('--duration', (Math.random() * 4 + 3) + 's');
+                star.style.setProperty('--delay', (Math.random() * 5) + 's');
+                star.style.setProperty('--min-opacity', '0.3');
+                starsContainer.appendChild(star);
+            }
+
+            // 黄色星星 - 20颗
+            for (let i = 0; i < 20; i++) {
+                const star = document.createElement('div');
+                star.className = 'star yellow';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.width = (Math.random() * 1.2 + 0.5) + 'px';
+                star.style.height = star.style.width;
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                star.style.setProperty('--delay', (Math.random() * 5) + 's');
+                star.style.setProperty('--min-opacity', '0.4');
+                starsContainer.appendChild(star);
+            }
+
+            // 流星 - 8颗
+            for (let i = 0; i < 8; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = (Math.random() * 60) + 'vw';
+                shootingStar.style.top = (Math.random() * 40) + 'vh';
+                shootingStar.style.height = '2px';
+                shootingStar.style.setProperty('--duration', (Math.random() * 2 + 1) + 's');
+                shootingStar.style.setProperty('--delay', (Math.random() * 8) + 's');
+                starsContainer.appendChild(shootingStar);
+            }
+        }
+
+        // 跳转到第二页
+        function goToPage2() {
+            document.getElementById('page1').style.opacity = '0';
+            document.getElementById('page1').style.transition = 'opacity 0.8s ease';
+            setTimeout(() => {
+                document.getElementById('page1').style.display = 'none';
+                const page2 = document.getElementById('page2');
+                page2.style.display = 'flex';
+                setTimeout(() => {
+                    page2.classList.add('show');
+                }, 100);
+            }, 800);
+        }
+
+        // 轮播控制
+        let currentSlide = 0;
+        const totalSlides = 4;
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.carousel-dot');
+
+        function goToSlide(index) {
+            currentSlide = index;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        // 自动轮播
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            goToSlide(currentSlide);
+        }, 3500);
+
+        // 文字交替动画
+        let textIndex = 0;
+        const texts = ['贾贾天天开心', '贾贾是人间四月的烟火'];
+        const loveText = document.getElementById('loveText');
+
+        setInterval(() => {
+            loveText.style.opacity = '0';
+            setTimeout(() => {
+                textIndex = (textIndex + 1) % 2;
+                loveText.textContent = texts[textIndex];
+                loveText.style.opacity = '1';
+            }, 500);
+        }, 3000);
+
+        // 初始化
+        createStars();
+    </script>
+</body>
+</html>
