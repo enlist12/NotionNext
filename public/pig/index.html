@@ -71,8 +71,8 @@
         .carousel-container {
             position: relative;
             z-index: 10;
-            width: 85%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 750px;
             margin: 0 auto;
         }
 
@@ -102,7 +102,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 15px;
+            padding: 20px;
         }
 
         .carousel-slide img {
@@ -112,6 +112,36 @@
             border-radius: 20px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
+
+        /* 左右箭头按钮 */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255,255,255,0.5);
+            color: #fff;
+            font-size: 26px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 15;
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(255,255,255,0.5);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-arrow.prev { left: 15px; }
+        .carousel-arrow.next { right: 15px; }
 
         /* 轮播指示器 */
         .carousel-dots {
@@ -220,15 +250,19 @@
                     <img src="/jia/75c720504cfff9ee7dbb18472e7fcc37.jpg" alt="玩偶1">
                 </div>
                 <div class="carousel-slide">
-                    <img src="/jia/e9d2e8dc84b6d48654c3c86d955eef77.jpg" alt="玩偶2">
+                    <img src="/jia/33859bce0a1876af52b8abfc85a9114a.jpg" alt="玩偶2">
                 </div>
                 <div class="carousel-slide">
-                    <img src="/jia/f3198688ea8ed489b96fd5d58f20edf2.jpg" alt="玩偶3">
+                    <img src="/jia/3db9540147c7c87b2efec69392efc5b4.jpg" alt="玩偶3">
                 </div>
                 <div class="carousel-slide">
                     <img src="/jia/fc935abbc439b0d2fdc4b40d64e7622c.jpg" alt="玩偶4">
                 </div>
             </div>
+            
+            <!-- 左右箭头 -->
+            <button class="carousel-arrow prev" onclick="prevSlide()">‹</button>
+            <button class="carousel-arrow next" onclick="nextSlide()">›</button>
         </div>
         <div class="carousel-dots">
             <div class="carousel-dot active" onclick="goToSlide(0)"></div>
@@ -266,8 +300,21 @@
             goToSlide(currentSlide + 1);
         }
 
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
         // 自动轮播
-        setInterval(nextSlide, 3500);
+        let autoPlay = setInterval(nextSlide, 3500);
+
+        // 鼠标悬停时暂停自动轮播
+        document.querySelector('.carousel').addEventListener('mouseenter', () => {
+            clearInterval(autoPlay);
+        });
+
+        document.querySelector('.carousel').addEventListener('mouseleave', () => {
+            autoPlay = setInterval(nextSlide, 3500);
+        });
 
         // 创建飘落花瓣
         function createPetals() {
